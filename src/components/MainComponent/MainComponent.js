@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ObjectCards from "../Cards/ObjectCards";
 import NavBar from "../Navbar/NavBar";
-import { getCardsData, filterCardData, allCategories } from "./helper";
+import { getCardsData, filterCardData } from "./helper";
 import { Spinner } from "react-bootstrap";
 import Filter from "../Filter/Filter"
 
@@ -23,11 +23,14 @@ function MainComponent() {
   const getAllCards = async () => {
     try {
       const data = await getCardsData();
-      setKeyCards(data.data);
+      if(data){
+        setKeyCards(data.data);
+        setFilterData(data.data)
+      }
       setLoading(false);
-      setFilterData(data.data)
     } catch (err) {
       setKeyCards([]);
+      setLoading(false)
     }
   };
 
@@ -49,7 +52,9 @@ function MainComponent() {
     else {
       try {
         const data = await filterCardData(category);
-        setKeyCards(data.data);
+        if(data){
+          setKeyCards(data.data);
+        }
         setLoading(false);
       } catch (err) {
         setKeyCards([]);
