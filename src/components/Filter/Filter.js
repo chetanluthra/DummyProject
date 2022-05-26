@@ -6,8 +6,8 @@ function Filter({filterData}) {
             <option value="all">All</option>
             <option value="jewelery">jewelery</option>
             <option value="electronics">electronics</option>
-            <option value="3">women's clothing</option>
-            <option value="4">Men's clothing</option>
+            <option value="womens_clothing">women's clothing</option>
+            <option value="mens_clothing">Men's clothing</option>
 
     </Form.Select>
   )

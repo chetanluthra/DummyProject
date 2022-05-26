@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import ObjectCards from "../Cards/ObjectCards";
 import NavBar from "../Navbar/NavBar";
-import { getCardsData, filterCardData } from "./helper";
+import { getCardsData, filterCardData, deleteCardData, postNewProducts} from "./helper";
 import { Spinner } from "react-bootstrap";
 import Filter from "../Filter/Filter"
-
+import CreateProduct from "../CreateProduct/CreateProduct"
 
 function MainComponent() {
   const [keyCards, setKeyCards] = useState([]);
@@ -14,10 +14,26 @@ function MainComponent() {
     getAllCards();
   }, []);
 
-  const deleteCard = (id) => {
-    const filterCards = keyCards.filter((card) => card.id !== id);
-    console.log(filterCards, id);
-    setKeyCards(filterCards);
+  const deleteCard = async (id) => {
+    // const filterCards = keyCards.filter((card) => card.id !== id);
+    // console.log(filterCards, id);
+    // setKeyCards(filterCards);
+    try {
+      const data = await deleteCardData(id);
+      getAllCards();
+    } catch (err) {
+      
+    }
+  };
+
+  const newProduct = async (formData) => {
+    try {
+      console.log(formData);
+      const data = await postNewProducts(formData);
+      getAllCards();
+    } catch (err) {
+      
+    }
   };
 
   const getAllCards = async () => {
@@ -39,16 +55,6 @@ function MainComponent() {
     if(category ==="all"){
       getAllCards();
     }
-    else if(category === "3" ){
-      const filterCards = filterData.filter((card) => card.category ==="women's clothing");
-      setKeyCards(filterCards);
-      setLoading(false)
-    }
-    else if(category === "4" ){
-      const filterCards = filterData.filter((card) => card.category ==="men's clothing");
-      setKeyCards(filterCards);
-      setLoading(false)
-    }
     else {
       try {
         const data = await filterCardData(category);
@@ -67,11 +73,12 @@ function MainComponent() {
   return (
     <>
       <NavBar />
-      <Filter  filterData={getFilterCards}/>
+      <Filter filterData={getFilterCards}/>
       {loading ? (
         <Spinner animation="border" />
       ) : (
         <div className="container">
+          <CreateProduct newProduct={newProduct}/>
           {keyCards && keyCards.length > 0 ? (
             <div className="row">
               {keyCards.map((i) => (

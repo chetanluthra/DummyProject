@@ -1,4 +1,4 @@
-import {getCards,deleteCard,filterCard, getAllCategories} from '../../Services/cardsData'
+import {getCards,deleteCard,filterCard, getAllCategories,postProducts} from '../../Services/cardsData'
 
 export const getCardsData = async () => {
     try{
@@ -35,5 +35,14 @@ export const allCategories = async () => {
     }
     catch(err){
         
+    }
+}
+
+export const postNewProducts = async (data) => {
+    try{
+        const products = await postProducts(data);
+        return products
+    }catch(err){
+
     }
 }
